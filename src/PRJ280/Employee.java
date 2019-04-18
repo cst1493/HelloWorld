@@ -1,6 +1,6 @@
 package PRJ280;
 
-public class Employee //change this to the superclass of ManageEmployee
+abstract class Employee //SuperClass
 {
     //Creating the variables
     private String firstName;
@@ -32,7 +32,7 @@ public class Employee //change this to the superclass of ManageEmployee
     }
 
     public void setfirstName(String setfirstName) {
-        this.firstName = setfirstName;
+        firstName = setfirstName;
     }
 
     public String getlastName() 
@@ -41,7 +41,7 @@ public class Employee //change this to the superclass of ManageEmployee
     }
 
     public void setlastName(String setlastName) {
-        this.lastName = setlastName;
+        lastName = setlastName;
     }
 
     public int gethour() 
@@ -50,15 +50,18 @@ public class Employee //change this to the superclass of ManageEmployee
     }
 
     public void sethour(int hour1) {
-        this.hour = hour1;
+        hour = hour1;
     }
-
-    public int getpay() 
-    {
+    
+    public int getpay() {
         return pay;
     }
-
+    
     public void setpay (int pay1) {
-        this.pay = pay1;
+        pay = pay1;
     }
+    
+    public abstract void amountPaid();
+    //TODO
+    
 }

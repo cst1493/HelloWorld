@@ -9,7 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.FileOutputStream;
-public class ManageEmployee { //change this to the subclass of Employee
+class ManageEmployee extends Employee { // super.methodName to call method // super(int x, String y); //for constructor
 	
 	
 	public static int option1() {
@@ -44,6 +44,11 @@ public class ManageEmployee { //change this to the subclass of Employee
 		System.out.println("Option 8 was called. ");
 		return 0;
 	}
+	@Override
+	public void amountPaid() {
+		// TODO set the job title of an employee.
+	}
+	
 	
 }
 

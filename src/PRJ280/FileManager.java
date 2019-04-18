@@ -1,6 +1,7 @@
 package PRJ280;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,7 +15,6 @@ public class FileManager { //this file can be used to edit the text files by cop
 	public final static String filePath = folderPath + "\\EmployeeInfo.csv";
 	//public final static String tempFilePath = folderPath + "\\TempEmployeeInfo.txt";  //TODO shouldn't need this if this file is deleted within the method.
 	
-	//read the text file for all IDs // similar to readTextFileID TODO  
 	//TODO could have another method to read only ID's by adding a starting term in the reading array and increment by multiples of 4 to only read one information type.  Ex: for (x=startingTerm; x < fullArray.length; x + 4) to read only whatever the starting term's value is, like only IDs or only First names.   
 	
 	//read the text file for a given ID number
@@ -48,6 +48,27 @@ public class FileManager { //this file can be used to edit the text files by cop
 		{
 			JOptionPane.showMessageDialog(null, "Error on reading file;");
 		}
+	}
+	
+	//read the text file for all IDs // similar to readTextFileID TODO  
+	public static void readEntireTextFile(String filePath) throws IOException 
+	{	
+		reader = new Scanner(new File(FileManager.filePath));  // "C:\\EmployeeInfo\\EmployeeInfo.txt"
+		reader.useDelimiter("[,\n]"); // this helps the scanner separate values by either a "," or a "\n". // default delimiter is a space.
+		int x = 0;
+		while( reader.hasNext()) {
+			x++;
+			reader.next();
+		}
+		--x; //off by one error because there's a comma after the last entry.
+		System.out.println(x + " data entries"); // TODO testing.
+		
+		// create an array with a length of "x".
+		// Make a new reader or reset the value... >>
+		reader = new Scanner(new File(FileManager.filePath)); // if this doesn't work, make a new variable name.... // put the info into the array
+		// print out the whole array in a for loop...................... TODO
+		
+		
 	}
 	
 	// write new employee info to the file
@@ -114,30 +135,29 @@ public class FileManager { //this file can be used to edit the text files by cop
 	}
 	
 	// creates folder
-	public static void createEmployeeFolder() throws IOException // creates program file that holds all information from this program.
+	public static void createFolder(String folderPath) throws IOException // creates program file that holds all information from this program.
 	{
 		// create a folder to keep employee text file.
-		File managementFile = new File (folderPath); //("C://EmployeeInfo");
-		if(managementFile.exists()) {
+		File managementFolder = new File (folderPath);
+		if(managementFolder.exists()) {
 			System.out.println("EmployeeInfo directory already exists.");
         } 
 		else {
-        	managementFile.mkdir();
+        	managementFolder.mkdir();
         	System.out.println("EmployeeInfo directory created. ");
         }
 	}
 	
 	// create a text file
-	public static void createFile(String newFileName) throws IOException // .text file with employee information.
+	public static void createFile(String fileName) throws IOException // .text file with employee information.
 	{	
 		// create a text file within folder above to keep employee information.
-		String fileName = newFileName; //last project was .CSV... may need to change to .CSV???
     	File textFile = new File( fileName );
     	
     	if( textFile.exists() ) {
     		System.out.println("Employee record already exists in " + fileName + ".");  
     	} else {
-    		textFile.createNewFile();
+    		textFile.createNewFile();  // create a new file
     		System.out.println("Employee record created under " + fileName + ".");
     	}
 	}
