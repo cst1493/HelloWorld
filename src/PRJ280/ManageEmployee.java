@@ -11,10 +11,15 @@ import java.io.PrintWriter;
 import java.io.FileOutputStream;
 class ManageEmployee extends Employee { // super.methodName to call method // super(int x, String y); //for constructor
 	
+	private int hours = 2; //TODO
+	private double hourlyPay = 2.5;
 	
-	public static int option1() {
-		System.out.println("Option 1 was called. ");
-		return 0; //TODO change to correct return value.
+	
+	public static void option1() {
+		System.out.println("Choose the employee ID: ");
+        String userInput = "7942";  //TODO get user input
+        
+        FileManager.editTextFile(FileManager.filePath, userInput, "ManageEmployee option 1");
 	}
 	public static int option2() {
 		System.out.println("Option 2 was called. ");
@@ -45,11 +50,10 @@ class ManageEmployee extends Employee { // super.methodName to call method // su
 		return 0;
 	}
 	@Override
-	public void amountPaid() {
-		// TODO set the job title of an employee.
+	public double amountPaid() {
+		double amountPaid = hours * hourlyPay;
+		return amountPaid;
 	}
-	
-	
 }
 
 //Scanner input = new Scanner(System.in);

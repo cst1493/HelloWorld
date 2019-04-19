@@ -7,6 +7,8 @@ public class UserInterface {
 	
 	public static void mainMenu()
 	{
+		System.out.println("This is the employee information managment system. Please select an option.\n");
+		
 		int numberOfOptions = 8;
 		String option[] = new String[numberOfOptions + 1];
 		option[0] = null;
@@ -19,12 +21,10 @@ public class UserInterface {
 		option[7] = "Check total amount paid"; //TODO (this week || this year || life of the employee)
 		option[8] = "Exit program";
 		
-		
-		System.out.println("This is the employee information managment system. Please select an option.\n");
-		
 		for (int i = 1; i < numberOfOptions + 1; i++) {
 			System.out.print( i + ": " + option[i] + "\n" );
 		}
+		
 		System.out.print("\n");
 		
 		boolean foundValidOption = false;

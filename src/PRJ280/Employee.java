@@ -61,7 +61,6 @@ abstract class Employee //SuperClass
         pay = pay1;
     }
     
-    public abstract void amountPaid();
-    //TODO
+    public abstract double amountPaid();
     
 }
