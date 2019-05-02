@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public class UserInterface {
 	
-	public static void mainMenu()
+	public static void mainMenu() throws IOException
 	{
 		System.out.println("This is the employee information managment system. Please select an option.\n");
 		
@@ -18,7 +18,7 @@ public class UserInterface {
 		option[4] = "Delete an Employee ID";
 		option[5] = "Check the details of a certain employee";
 		option[6] = "Check the details of all employees";
-		option[7] = "Check total amount paid"; //TODO (this week || this year || life of the employee)
+		//option[7] = "Check total amount paid"; //TODO (this week || this year || life of the employee)
 		option[8] = "Exit program";
 		
 		for (int i = 1; i < numberOfOptions + 1; i++) {
@@ -31,7 +31,7 @@ public class UserInterface {
 		while(foundValidOption == false) 
 		{
 		
-			String userInput = "1"; //TODO make this user input
+			String userInput = "4"; //TODO make this user input
 			
 			//TODO prevent error below when user types in a letter by using a try/catch
 			int i = Integer.valueOf(userInput); //cast user input String to integer. 

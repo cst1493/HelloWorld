@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 
 public class FileManager { //this file can be used to edit the text files by copying the information in the text file and putting it into a temporary array.
 	
+	FileManager FM = new FileManager();
 	private static Scanner reader;
 	public final static String folderPath = "C:\\EmployeeInfo";
 	public final static String filePath = folderPath + "\\EmployeeInfo.csv";
@@ -41,7 +42,32 @@ public class FileManager { //this file can be used to edit the text files by cop
 		}
     }
 	
-	//TODO could have another method to read only ID's by adding a starting term in the reading array and increment by multiples of 4 to only read one information type.  Ex: for (x=startingTerm; x < fullArray.length; x + 4) to read only whatever the starting term's value is, like only IDs or only First names.   
+	//read only ID TODO either delimiter or reader.next isn't working.
+	public static void readIDsOnly(String filePath) throws IOException 
+	{
+		reader = new Scanner(new File(filePath));  // "C:\\EmployeeInfo\\EmployeeInfo.txt"
+		reader.useDelimiter("[,\n]"); // this helps the scanner separate values by either a "," or a "\n". // default delimiter is a space.
+		int dataEntries = 0; // the number of text pieces in the text document.
+		while( reader.hasNext()) {
+			dataEntries++;
+			reader.next();
+		}
+		System.out.println(dataEntries + " data entries\n\n"); // TODO testing.
+		--dataEntries; //off by one error because there's a comma after the last entry. TODO could remove this here.
+		
+		
+		// create an array with a length of the total amount of "dataEntries".
+		String[] textInFile = new String[dataEntries];
+		
+		reader = new Scanner(new File(filePath)); // reset the reader.
+		int i = 0;
+		while( reader.hasNext()) { //TODO error; try with a different scanner variable.
+			textInFile[i] = reader.next();
+			++i;
+		}
+		System.out.print(textInFile[0]); // Why is all of the data getting put into [0]???????  reader.next() or delimiter not working/not resetting???
+		System.out.print("\n\n\n");
+	}
 	
 	//read the text file for a given ID number
 	public static void readTextFileID(String searchTerm, String filePath) 
@@ -78,7 +104,7 @@ public class FileManager { //this file can be used to edit the text files by cop
 	}
 	
 	//read the text file for all IDs
-	public static void readEntireTextFile(String filePath) throws IOException
+	public static void readEntireTextFile(String filePath) throws IOException // TODO change formatting to have space between every 5th data entry.
 	{
 		reader = new Scanner(new File(filePath));  // "C:\\EmployeeInfo\\EmployeeInfo.txt"
 		reader.useDelimiter("[,\n]"); // this helps the scanner separate values by either a "," or a "\n". // default delimiter is a space.
@@ -88,8 +114,6 @@ public class FileManager { //this file can be used to edit the text files by cop
 			reader.next();
 		}
 		--dataEntries; //off by one error because there's a comma after the last entry.
-		System.out.println(dataEntries + " data entries"); // TODO testing.
-		
 		
 		// create an array with a length of the total amount of "dataEntries".
 		String[] textInFile = new String[dataEntries];
@@ -123,7 +147,7 @@ public class FileManager { //this file can be used to edit the text files by cop
 		}
 	}
 	
-	// Edits the text file // TODO  newest addition.  Appears to be functional now
+	// Edits the text file hourly pay
 	public static void editTextFile(String filePath, String ID_toEdit, String newHourlyPay)
 	{
 		String tempFile = /*FileManager.folderPath + */ "temp.txt";
@@ -144,18 +168,65 @@ public class FileManager { //this file can be used to edit the text files by cop
 			{
 				ID = scanner.next();
 				//System.out.println(ID); //testing
-				firstName = scanner.next();
-				//System.out.println(firstName); //testing //TODO appears to be an error on the Delimiter
-				lastName = scanner.next();
-				//System.out.println(lastName); //testing
-				hourlyPay = scanner.next();
-				//System.out.println(hourlyPay); //testing
-				hours = scanner.next();
-				if (ID.equals(ID_toEdit)) { //if the searched for ID is found, edit that line.
-					pw.print( ID + "," + firstName + "," + lastName + "," + newHourlyPay + "," + hours + ",");  //change last "," to \n if using \n in the Delimiter
+				if (scanner.hasNext()) { //fixed the error due to finding a blank slot in the file (after the ",").
+					firstName = scanner.next();
+					//System.out.println(firstName); //testing
+					lastName = scanner.next();
+					//System.out.println(lastName); //testing
+					hourlyPay = scanner.next();
+					//System.out.println(hourlyPay); //testing
+					hours = scanner.next();
+					if (ID.equals(ID_toEdit)) { //if the searched for ID is found, edit that line.
+						pw.print( ID + "," + firstName + "," + lastName + "," + newHourlyPay + "," + hours + ",");  //change last "," to \n if using \n in the Delimiter
+					}
+					else {
+						pw.print(ID + "," + firstName + "," + lastName + "," + hourlyPay + "," + hours + ",");  //change last "," to \n if using \n in the Delimiter
+					}
 				}
-				else {
-					pw.print(ID + "," + firstName + "," + lastName + "," + hourlyPay + "," + hours + ",");  //change last "," to \n if using \n in the Delimiter
+			}
+			scanner.close();
+			pw.flush();
+			pw.close();
+			oldFile.delete();
+			File dump = new File(filePath);
+			newFile.renameTo(dump);
+		}
+		catch(Exception e) { System.out.println("error in \"editTextFile\" method."); }
+	}
+	
+	public static void removeEmployee(String removeID, String filePath) 
+	{
+		String tempFile = /*FileManager.folderPath + */ "temp.txt";
+		File oldFile = new File(filePath);
+		File newFile = new File(tempFile);
+		String ID, firstName, lastName, hourlyPay, hours; //TODO add more fields if needed.
+		
+		try 
+		{
+			FileWriter fw = new FileWriter(tempFile, true);
+			BufferedWriter bw = new BufferedWriter(fw);
+			PrintWriter pw = new PrintWriter(bw);
+			
+			Scanner scanner = new Scanner(new File(filePath));
+			//scanner.useDelimiter("[,\n]");
+			scanner.useDelimiter(",");
+			while (scanner.hasNext())
+			{
+				ID = scanner.next();
+				//System.out.println(ID); //testing
+				if (scanner.hasNext()) { //fixed the error due to finding a blank slot in the file (after the ",").
+					firstName = scanner.next();
+					//System.out.println(firstName); //testing
+					lastName = scanner.next();
+					//System.out.println(lastName); //testing
+					hourlyPay = scanner.next();
+					//System.out.println(hourlyPay); //testing
+					hours = scanner.next();
+					if(!ID.equals(removeID)) {
+						pw.print( ID + "," + firstName + "," + lastName + "," + hourlyPay + "," + hours + ",");
+						
+					}
+					else{System.out.println("Employee deleted successfully. ");}
 				}
 			}
 			scanner.close();
@@ -195,4 +266,5 @@ public class FileManager { //this file can be used to edit the text files by cop
     		System.out.println("Employee record created under " + fileName + ".");
     	}
 	}
+
 }
