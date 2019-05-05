@@ -2,11 +2,12 @@ package PRJ280;
 import java.io.File;
 import java.io.IOException;
 //import java.lang.StackWalker.Option;
+import java.util.Scanner;
 
 public class UserInterface {
 	
-	public static void mainMenu() throws IOException
-	{
+	public static void mainMenu() throws IOException {
+		
 		System.out.println("This is the employee information managment system. Please select an option.\n");
 		
 		int numberOfOptions = 8;
@@ -14,59 +15,81 @@ public class UserInterface {
 		option[0] = null;
 		option[1] = "Add hours to an employee ID";
 		option[2] = "Edit hourly pay for an employee";
-		option[3] = "Create a new Employee ID";  //calls CreateNewEmployeeID(ID,FN,LN,Pay)
-		option[4] = "Delete an Employee ID";
+		option[3] = "Add a new Employee ";
+		option[4] = "Remove an Employee ";
 		option[5] = "Check the details of a certain employee";
 		option[6] = "Check the details of all employees";
-		//option[7] = "Check total amount paid"; //TODO (this week || this year || life of the employee)
+		option[7] = "Check total amount paid"; //TODO  oldPay += (hourlyPay * hours);
 		option[8] = "Exit program";
 		
-		for (int i = 1; i < numberOfOptions + 1; i++) {
-			System.out.print( i + ": " + option[i] + "\n" );
-		}
-		
+		displayOptions(option, numberOfOptions);
+		System.out.print("\n");
+		int selection = promptUser(option, numberOfOptions);
 		System.out.print("\n");
 		
-		boolean foundValidOption = false;
-		while(foundValidOption == false) 
-		{
+		int i = Integer.valueOf(selection); //cast user input String to integer. 
+			switch (i) {
+			case 1: 
+				ManageEmployee.option1();
+				break; 
+			case 2: 
+				ManageEmployee.option2();
+				break; 
+			case 3: 
+				ManageEmployee.option3();
+				break; 
+			case 4: 
+				ManageEmployee.option4();
+				break; 
+			case 5: 
+				ManageEmployee.option5();
+				break; 
+			case 6: 
+				ManageEmployee.option6();
+				break; 
+			case 7: 
+				ManageEmployee.option7();
+				break; 
+			case 8: 
+				ManageEmployee.option8();
+				break;
+			}
+	}
+	
+	
+	private static void displayOptions(String[] option, int numOfOptions) {
+		for (int i = 1; i < numOfOptions + 1; i++) {
+			System.out.print( i + ": " + option[i] + "\n" );
+		}
+	}
+	
+	
+	private static int promptUser(String[] option, int numOfOptions) {
+		int selection = 0;
+		System.out.print("Select an option: ");
 		
-			String userInput = "4"; //TODO make this user input
-			
-			//TODO prevent error below when user types in a letter by using a try/catch
-			int i = Integer.valueOf(userInput); //cast user input String to integer. 
-		       switch (i) {
-		       case 1: 
-		           ManageEmployee.option1();
-		           break; 
-		       case 2: 
-		           ManageEmployee.option2();
-		           break; 
-		       case 3: 
-		           ManageEmployee.option3();
-		           break; 
-		       case 4: 
-		           ManageEmployee.option4();
-		           break; 
-		       case 5: 
-		           ManageEmployee.option5();
-		           break; 
-		       case 6: 
-		           ManageEmployee.option6();
-		           break; 
-		       case 7: 
-		           ManageEmployee.option7();
-		           break; 
-		       case 8: 
-		           ManageEmployee.option8();
-		           break;
-		       default:
-		    	   System.out.println("Please type a number that's between 1 & 8. ");
-		       }
-		       
-		       if (i > 0 && i <= numberOfOptions) { //break out of while loop if valid input.
-		    	   foundValidOption = true;
-		       } 
-		} //end of while
+		boolean validOption = false;
+		while( validOption == false )
+		{
+			try 
+			{
+				@SuppressWarnings("resource")
+				Scanner s = new Scanner(System.in);
+				selection = s.nextInt();
+				if ( (selection <= 8) && (selection > 0) ) {
+					validOption = true;
+				}
+				else {
+					System.out.println("\nInvalid input.  Select a valid number option from the option menu.\n");
+					displayOptions(option, numOfOptions);
+				}
+			}
+			catch(Exception e) 
+			{
+				System.out.println("\nInvalid input.  Select a valid number option from the option menu.\n");
+				displayOptions(option, numOfOptions);
+			}
+		}
+		return selection;
 	}
 }

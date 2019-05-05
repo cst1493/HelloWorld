@@ -10,49 +10,71 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.FileOutputStream;
 class ManageEmployee extends Employee { // super.methodName to call method // super(int x, String y); //for constructor
-	
-	private int hours = 2; //TODO
-	private double hourlyPay = 2.5;
-	
-	public static void option1() {//option[1] = "Add hours to an employee ID"; TODO
-		System.out.println("Choose the employee ID: "); 
-        String userInput = "7942";  //TODO get user input
+	//1,2,4
+	public static void option1() throws IOException { // "Add hours to an employee ID";
+		String[] IDs = FileManager.getIDsOnly(); //creates the array to find the existing ID numbers.
+		for (int i = 0; i < IDs.length; ++i) {
+			//System.out.print(IDs[i] + "\t");
+		} // ^ displays available IDs to the user.
+		System.out.print("\nChoose the employee ID to add hours to: "); 
         
-        //FileManager.editTextFile(FileManager.filePath, userInput, "ManageEmployee option 1");
+		String userInputID = Employee.userInputID_withExistingID(IDs); //TODO loop this until found an existing ID... //TODO list ALL IDs in the file 1st.
+        //Employee.userInputID_withExistingID();
+		
+        // search for userInputID and add hours to userInputID
+        int userInputHours = Employee.userInputAddHours();
+        FileManager.addHours(FileManager.filePath, userInputID, userInputHours); //change "5" to hoursAdded variable (from method in Employee class).
 	}
 	
-	public static void option2() { //"Edit hourly pay for an employee";
-		String userInputID = "9999"; // TODO get user input in a while(true) loop until they find a valid ID... could also read out the ID's 1st....
-		String userInput_NewHourlyPay = "7.99"; // TODO get user input in a while(true) loop into a try/catch that checks if the string can be converted to a double...
-		// they search for an ID...  that ID becomes ID_toKeep
-		FileManager.editTextFile(FileManager.filePath, userInputID, userInput_NewHourlyPay);
+	public static void option2() throws IOException { //"Edit hourly pay for an employee";
+		String[] IDs = FileManager.getIDsOnly(); //creates the array to find the existing ID numbers.
+		System.out.println("Input a 4 digit ID number that you want to edit the hourly pay for. ");
+		String userInputID = Employee.userInputID_withExistingID(IDs);
+		
+		double userInput_NewHourlyPay = Employee.userInputHourlyPay();
+		FileManager.editHourlyPay(FileManager.filePath, userInputID, userInput_NewHourlyPay);
 	}
 	
 	public static void option3() { //"Create a new Employee ID";
-		int ID = 1234; String firstName = "F", lastName = "L"; double hourlyPay = 9.99; int hours = 40; //TODO get user input, then get user to confirm after repeating it back to the user.
-		FileManager.createNewEmployeeID(ID, firstName, lastName, hourlyPay, hours);
+		System.out.println("enter a first name for the new employee. ");
+		String firstName = Employee.userInputName();
+		System.out.println("enter a last name for the new employee. ");
+		String lastName = Employee.userInputName();
+		
+		System.out.println( "Enter a 4 digit ID number for " + firstName + " " + lastName + ". ");
+		String ID = Employee.userInputID();
+		double hourlyPay = Employee.userInputHourlyPay();
+		int defaultHours = 0;
+		
+		FileManager.createNewEmployeeID(ID, firstName, lastName, hourlyPay, defaultHours);
 	}
 	
-	public static void option4() {
-		//option[4] = "Delete an Employee ID";
-		String removeID = "9922"; //TODO get user input
+	public static void option4() throws IOException { //"Delete an Employee ID";
+		System.out.println("Enter an existing ID that you would like to remove. ");
+		
+		String[] IDs = FileManager.getIDsOnly(); //creates the array to find the existing ID numbers.
+		for (int i = 0; i < IDs.length; ++i) {
+			System.out.print(IDs[i] + "\t");
+		} // ^ displays available IDs to the user.
+		System.out.print("\n");
+		
+		String removeID = Employee.userInputID();
 		FileManager.removeEmployee(removeID, FileManager.filePath);
 	}
 	
 	public static void option5() { //"Check the details of a certain employee";
-		String ID_searchedFor = "1234";  //TODO Get user input
+		System.out.println("Enter a 4 digit ID for the employee's details you want to see. ");
+		String ID_searchedFor = Employee.userInputID();
 		FileManager.readTextFileID(ID_searchedFor, FileManager.filePath);
 	}
 	
-	public static void option6() throws IOException {
-		//"Check the details of all employees";
+	public static void option6() throws IOException { //"Check the details of all employees";
 		FileManager.readEntireTextFile(FileManager.filePath);
 	}
 	
-	public static int option7() {
+	public static void option7() {
 		//option[7] = "Check total amount paid"; //TODO (this week || this year || life of the employee)
 		System.out.println("Option 7 was called. ");
-		return 0;
 	}
 	
 	public static void option8() {
@@ -60,13 +82,14 @@ class ManageEmployee extends Employee { // super.methodName to call method // su
 		System.exit(0);
 	}
 	
-	@Override
+	//Completed and tested #s: 1,2
+	
+	/*@Override
 	public double amountPaid() {
 		double amountPaid = hours * hourlyPay;
 		return amountPaid;
-	}
+	}*/
 }
 
 //Scanner input = new Scanner(System.in);
 //int userInput = input.nextInt();
-//input.close();

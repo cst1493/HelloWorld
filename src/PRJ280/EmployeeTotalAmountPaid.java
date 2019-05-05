@@ -46,9 +46,6 @@ public class EmployeeTotalAmountPaid implements Interface
 			// make the array (similar to 
 			
 		}
-		
-			
 	}
-	
 }
 
