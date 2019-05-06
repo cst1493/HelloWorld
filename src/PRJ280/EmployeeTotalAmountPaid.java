@@ -24,7 +24,7 @@ public class EmployeeTotalAmountPaid implements Interface
 			{
 				ID = reader.next();
 				//++x; //ID + 3 = hourlyPay..  ID + 4 = hours..
-				int Hours;
+				//int Hours;
 				
 				if (ID.equals(searchTerm)) { found = true; }
 				
@@ -32,7 +32,7 @@ public class EmployeeTotalAmountPaid implements Interface
 			
 			if (found == true) 
 			{
-				JOptionPane.showMessageDialog(null, ID + " was found. "); //remove later TODO
+				JOptionPane.showMessageDialog(null, ID + " was found. ");
 			}
 			else { JOptionPane.showMessageDialog(null, "ID not found");}
 		}

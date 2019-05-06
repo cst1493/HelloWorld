@@ -41,6 +41,7 @@ public class FileManager {
 			textInFile[i] = reader.next();
 			++i;
 		}
+		reader.close();
     }
 	
 	// this creates an array of all the IDs in FileManager.filePath.  This is needed to show the user what their available options are to select/edit and do check if that option is a valid option.
@@ -65,6 +66,7 @@ public class FileManager {
 			IDsInFile[i] = reader2.next();
 			reader2.next(); reader2.next(); reader2.next(); reader2.next(); // to get every 5th element in the file to only get IDs.
 		}
+		reader.close();
 		reader2.close();
 		Arrays.sort(IDsInFile); // sort the array.
 		return IDsInFile;
@@ -94,9 +96,14 @@ public class FileManager {
 			
 			if (found == true) 
 			{
-				JOptionPane.showMessageDialog(null, "ID:  " + ID + ";  " + "First Name:  " + firstName + ";  " + "Last Name:  " + lastName + ";  " + "Hourly Pay:  " + hourlyPay + ";  " + "Hours Worked: " + hours + ";");
+				System.out.println("ID: " + ID + ";  " + "First Name:  " + firstName + ";  " + "Last Name:  " + lastName + ";  " + "Hourly Pay:  " + hourlyPay + ";  " + "Hours Worked: " + hours + "; ");
+				//JOptionPane.showMessageDialog(null, "ID:  " + ID + ";  " + "First Name:  " + firstName + ";  " + "Last Name:  " + lastName + ";  " + "Hourly Pay:  " + hourlyPay + ";  " + "Hours Worked: " + hours + ";");
 			}
-			else { JOptionPane.showMessageDialog(null, "ID not found");}
+			else { 
+				System.out.println("ID " + ID + " not found.  ");
+				//JOptionPane.showMessageDialog(null, "ID not found");
+				}
+			reader.close();
 		}
 		catch(Exception e)
 		{
@@ -105,7 +112,7 @@ public class FileManager {
 	}
 	
 	//read the text file for all IDs
-	public static void readEntireTextFile(String filePath) throws IOException // TODO change formatting to have space between every 5th data entry.
+	public static void readEntireTextFile(String filePath) throws IOException // ALL of the employee information data is put into an array here and printed out to the user when called.  reads entire file.
 	{
 		reader = new Scanner(new File(filePath));  // "C:\\EmployeeInfo\\EmployeeInfo.txt"
 		reader.useDelimiter("[,\n]"); // this helps the scanner separate values by either a "," or a "\n". // default delimiter is a space.
@@ -114,19 +121,23 @@ public class FileManager {
 			dataEntries++;
 			reader.next();
 		}
-		--dataEntries; //off by one error because there's a comma after the last entry.
-		
+		// System.out.println(dataEntries);  testing amount of data entries.
 		// create an array with a length of the total amount of "dataEntries".
-		String[] textInFile = new String[dataEntries];
+		String[] textInFile = new String[dataEntries]; //good here up*****
 		
-		reader = new Scanner(new File(filePath)); // reset the reader.
+		Scanner reader2 = new Scanner(new File(FileManager.filePath)); // reset the reader or make a new one.
+		reader2.useDelimiter("[,\n]");
+		
 		int i = 0;
-		while (reader.hasNext()) {
-			textInFile[i] = reader.next();
-			System.out.print(textInFile[i]);  //TODO 100% of the information is going into [0] again.  need to re-do array and change to a for loop.
+		while (reader2.hasNext()) {
+			textInFile[i] = reader2.next();
+			System.out.print(textInFile[i]);
 			++i;
-			//if ((i % 5) == 0) {System.out.println("\n");}  TODO not getting a newline between employee data sets.
+			if ((i % 5) == 0) {System.out.print(";\t");}
+			else {System.out.print(", ");}
 		}
+		reader.close();
+		reader2.close();
 		System.out.print("\n");
 	}
 	
@@ -270,6 +281,7 @@ public class FileManager {
 			if (found == false)  {
 				JOptionPane.showMessageDialog(null, "ID not found");
 				}
+			reader.close();
 		}
 		catch(Exception e)
 		{
@@ -304,6 +316,7 @@ public class FileManager {
 				if (found == false)  {
 					JOptionPane.showMessageDialog(null, "ID not found");
 					}
+				reader.close();
 			}
 			catch(Exception e)
 			{
@@ -319,7 +332,7 @@ public class FileManager {
 		String tempFile = /*FileManager.folderPath + */ "temp.txt";
 		File oldFile = new File(filePath);
 		File newFile = new File(tempFile);
-		String ID, firstName, lastName, hourlyPay, hours;
+		String ID = "", firstName = "", lastName = "", hourlyPay = "", hours = "";
 		
 		try 
 		{
@@ -327,36 +340,35 @@ public class FileManager {
 			BufferedWriter bw = new BufferedWriter(fw);
 			PrintWriter pw = new PrintWriter(bw);
 			
-			Scanner scanner = new Scanner(new File(filePath));
-			scanner.useDelimiter("[,\n]");
+			reader = new Scanner(new File(filePath));
+			reader.useDelimiter("[,\n]");
 			//scanner.useDelimiter(",");
-			while (scanner.hasNext())
+			while (reader.hasNext())
 			{
-				ID = scanner.next();
+				ID = reader.next();
 				//System.out.println(ID); //testing
-				if (scanner.hasNext()) { //fixed the error due to finding a blank slot in the file (after the ",").
-					firstName = scanner.next();
+				if (reader.hasNext()) { //fixed the error due to finding a blank slot in the file (after the ",").
+					firstName = reader.next();
 					//System.out.println(firstName); //testing
-					lastName = scanner.next();
+					lastName = reader.next();
 					//System.out.println(lastName); //testing
-					hourlyPay = scanner.next();
+					hourlyPay = reader.next();
 					//System.out.println(hourlyPay); //testing
-					hours = scanner.next();
+					hours = reader.next();
 					if(!ID.equals(removeID)) {
 						pw.print( ID + "," + firstName + "," + lastName + "," + hourlyPay + "," + hours + ",");
-						
 					}
 					else{System.out.println("Employee deleted successfully. ");}
 				}
 			}
-			scanner.close();
+			reader.close();
 			pw.flush();
 			pw.close();
 			oldFile.delete();
 			File dump = new File(filePath);
 			newFile.renameTo(dump);
 		}
-		catch(Exception e) { System.out.println("error in \"editTextFile\" method."); }
+		catch(Exception e) { System.out.println("error in \"editTextFile\" method."); } // TODO remove system.out
 	}
 	
 	// creates folder

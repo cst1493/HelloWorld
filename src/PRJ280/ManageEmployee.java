@@ -18,7 +18,7 @@ class ManageEmployee extends Employee { // super.methodName to call method // su
 		} // ^ displays available IDs to the user.
 		System.out.print("\nChoose the employee ID to add hours to: "); 
         
-		String userInputID = Employee.userInputID_withExistingID(IDs); //TODO loop this until found an existing ID... //TODO list ALL IDs in the file 1st.
+		String userInputID = Employee.userInputID_withExistingID(IDs);
         //Employee.userInputID_withExistingID();
 		
         // search for userInputID and add hours to userInputID
@@ -36,9 +36,9 @@ class ManageEmployee extends Employee { // super.methodName to call method // su
 	}
 	
 	public static void option3() { //"Create a new Employee ID";
-		System.out.println("enter a first name for the new employee. ");
+		System.out.println("Enter a first name for the new employee. ");
 		String firstName = Employee.userInputName();
-		System.out.println("enter a last name for the new employee. ");
+		System.out.println("Enter a last name for the new employee. ");
 		String lastName = Employee.userInputName();
 		
 		System.out.println( "Enter a 4 digit ID number for " + firstName + " " + lastName + ". ");
@@ -49,7 +49,7 @@ class ManageEmployee extends Employee { // super.methodName to call method // su
 		FileManager.createNewEmployeeID(ID, firstName, lastName, hourlyPay, defaultHours);
 	}
 	
-	public static void option4() throws IOException { //"Delete an Employee ID";
+	public static void option4() throws IOException { //"Delete an Employee ID"; TODO
 		System.out.println("Enter an existing ID that you would like to remove. ");
 		
 		String[] IDs = FileManager.getIDsOnly(); //creates the array to find the existing ID numbers.
@@ -59,12 +59,16 @@ class ManageEmployee extends Employee { // super.methodName to call method // su
 		System.out.print("\n");
 		
 		String removeID = Employee.userInputID();
+		// System.out.println(removeID);  ID is retrieved correctly at this point.
 		FileManager.removeEmployee(removeID, FileManager.filePath);
 	}
 	
-	public static void option5() { //"Check the details of a certain employee";
+	public static void option5() throws IOException { //"Check the details of a certain employee";
+		
+		String[] IDs = FileManager.getIDsOnly(); //creates the array to find the existing ID numbers.
 		System.out.println("Enter a 4 digit ID for the employee's details you want to see. ");
-		String ID_searchedFor = Employee.userInputID();
+		String ID_searchedFor = Employee.userInputID_withExistingID(IDs);
+		System.out.println("Option 5 testing      ...");
 		FileManager.readTextFileID(ID_searchedFor, FileManager.filePath);
 	}
 	
@@ -72,8 +76,8 @@ class ManageEmployee extends Employee { // super.methodName to call method // su
 		FileManager.readEntireTextFile(FileManager.filePath);
 	}
 	
-	public static void option7() {
-		//option[7] = "Check total amount paid"; //TODO (this week || this year || life of the employee)
+	public static void option7() { //option[7] = "Check total amount paid";
+		//TODO (this week || this year || life of the employee)
 		System.out.println("Option 7 was called. ");
 	}
 	

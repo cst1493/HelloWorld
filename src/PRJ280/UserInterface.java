@@ -24,6 +24,8 @@ public class UserInterface {
 		
 		displayOptions(option, numberOfOptions);
 		System.out.print("\n");
+		
+		//int selection = 4; //TODO use code below instead.
 		int selection = promptUser(option, numberOfOptions);
 		System.out.print("\n");
 		
@@ -62,8 +64,7 @@ public class UserInterface {
 			System.out.print( i + ": " + option[i] + "\n" );
 		}
 	}
-	
-	
+		
 	private static int promptUser(String[] option, int numOfOptions) {
 		int selection = 0;
 		System.out.print("Select an option: ");
