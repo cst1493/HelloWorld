@@ -9,13 +9,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.FileOutputStream;
-class ManageEmployee extends Employee { // super.methodName to call method // super(int x, String y); //for constructor
+abstract class ManageEmployee extends Employee  {
 	//1,2,4
 	public static void option1() throws IOException { // "Add hours to an employee ID";
 		String[] IDs = FileManager.getIDsOnly(); //creates the array to find the existing ID numbers.
-		for (int i = 0; i < IDs.length; ++i) {
-			//System.out.print(IDs[i] + "\t");
-		} // ^ displays available IDs to the user.
+		
 		System.out.print("\nChoose the employee ID to add hours to: "); 
         
 		String userInputID = Employee.userInputID_withExistingID(IDs);
@@ -49,7 +47,7 @@ class ManageEmployee extends Employee { // super.methodName to call method // su
 		FileManager.createNewEmployeeID(ID, firstName, lastName, hourlyPay, defaultHours);
 	}
 	
-	public static void option4() throws IOException { //"Delete an Employee ID"; TODO
+	public static void option4() throws IOException { //"Delete an Employee ID"; 
 		System.out.println("Enter an existing ID that you would like to remove. ");
 		
 		String[] IDs = FileManager.getIDsOnly(); //creates the array to find the existing ID numbers.
@@ -76,9 +74,17 @@ class ManageEmployee extends Employee { // super.methodName to call method // su
 		FileManager.readEntireTextFile(FileManager.filePath);
 	}
 	
-	public static void option7() { //option[7] = "Check total amount paid";
-		//TODO (this week || this year || life of the employee)
-		System.out.println("Option 7 was called. ");
+	public static void option7() throws IOException { //Total amount paid to a given ID 
+		System.out.println("Choose an employee that you want to calculate their total pay. ");
+		String[] IDs = FileManager.getIDsOnly();
+		String userInputID = Employee.userInputID_withExistingID(IDs);
+		
+		int hours = FileManager.getHours(userInputID);
+		double hourlyPay = FileManager.getHourlyPay(userInputID);
+		
+		double TotalAmount = hours * hourlyPay;
+		
+		System.out.println("Total amount paid to " + userInputID + " is $" + TotalAmount);
 	}
 	
 	public static void option8() {
@@ -86,14 +92,5 @@ class ManageEmployee extends Employee { // super.methodName to call method // su
 		System.exit(0);
 	}
 	
-	//Completed and tested #s: 1,2
-	
-	/*@Override
-	public double amountPaid() {
-		double amountPaid = hours * hourlyPay;
-		return amountPaid;
-	}*/
 }
 
-//Scanner input = new Scanner(System.in);
-//int userInput = input.nextInt();

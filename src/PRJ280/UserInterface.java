@@ -6,8 +6,7 @@ import java.util.Scanner;
 
 public class UserInterface {
 	
-	public static void mainMenu() throws IOException {
-		
+	public static void mainMenu() throws IOException {	
 		System.out.println("This is the employee information managment system. Please select an option.\n");
 		
 		int numberOfOptions = 8;
@@ -19,13 +18,12 @@ public class UserInterface {
 		option[4] = "Remove an Employee ";
 		option[5] = "Check the details of a certain employee";
 		option[6] = "Check the details of all employees";
-		option[7] = "Check total amount paid"; //TODO  oldPay += (hourlyPay * hours);
+		option[7] = "Check total amount paid"; 
 		option[8] = "Exit program";
 		
 		displayOptions(option, numberOfOptions);
 		System.out.print("\n");
 		
-		//int selection = 4; //TODO use code below instead.
 		int selection = promptUser(option, numberOfOptions);
 		System.out.print("\n");
 		
@@ -57,7 +55,6 @@ public class UserInterface {
 				break;
 			}
 	}
-	
 	
 	private static void displayOptions(String[] option, int numOfOptions) {
 		for (int i = 1; i < numOfOptions + 1; i++) {

@@ -1,5 +1,6 @@
 package PRJ280;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 abstract class Employee //SuperClass
@@ -115,16 +116,6 @@ abstract class Employee //SuperClass
 		return name;
     }
     
+    protected abstract void calcPaid() throws IOException;
     
-    /*
-    public String getID() 
-    {
-        return ID;
-    }
-    
-    public void setID(String setID) {
-    	String setID = userInputID();
-        ID = setID;
-    }
-    */
 }

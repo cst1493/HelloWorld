@@ -55,7 +55,6 @@ public class FileManager {
 			reader.next();
 		} 
 		int numOfIDs = dataEntries/5; // to get the amount of IDs only.
-		//System.out.println(numOfIDs + "  IDs currently being used."); // for testing.
 		
 		// create the return array with a length of the total amount of "numOfIDs".
 		String[] IDsInFile = new String[numOfIDs];
@@ -121,20 +120,18 @@ public class FileManager {
 			dataEntries++;
 			reader.next();
 		}
-		// System.out.println(dataEntries);  testing amount of data entries.
 		// create an array with a length of the total amount of "dataEntries".
-		String[] textInFile = new String[dataEntries]; //good here up*****
+		String[] textInFile = new String[dataEntries];
 		
 		Scanner reader2 = new Scanner(new File(FileManager.filePath)); // reset the reader or make a new one.
 		reader2.useDelimiter("[,\n]");
-		
+		System.out.println("ID\t\tFirst\t\tLast\t\tHourly\t\tHours");
 		int i = 0;
 		while (reader2.hasNext()) {
 			textInFile[i] = reader2.next();
-			System.out.print(textInFile[i]);
+			System.out.print(textInFile[i] + "\t\t");
 			++i;
-			if ((i % 5) == 0) {System.out.print(";\t");}
-			else {System.out.print(", ");}
+			if ((i % 5) == 0) {System.out.print("\n");}
 		}
 		reader.close();
 		reader2.close();
@@ -147,7 +144,6 @@ public class FileManager {
 		try {
 			FileWriter fWriter = new FileWriter(FileManager.filePath, true);
 			//if true, then add text to bottom of the text file.  If set to false, it would completely replace the file.
-			//BufferedWriter bWriter = new BufferedWriter(fWriter);
 			PrintWriter pWriter = new PrintWriter(fWriter);
 			pWriter.print(ID + "," + firstName + "," + lastName + "," + hourlyPay + "," + hours + ","); //last "," to \n if using \n in the Delimiter
 			pWriter.flush();
@@ -162,7 +158,7 @@ public class FileManager {
 	// Edits the text file hourly pay
 	public static void editHourlyPay(String filePath, String ID_toEdit, double newHourlyPay)
 	{
-		String tempFile = /*FileManager.folderPath + */ "temp.txt";
+		String tempFile = "temp.txt";
 		File oldFile = new File(filePath);
 		File newFile = new File(tempFile);
 		String ID, firstName, lastName, hourlyPay, hours;
@@ -174,19 +170,14 @@ public class FileManager {
 			PrintWriter pw = new PrintWriter(bw);
 			
 			Scanner scanner = new Scanner(new File(filePath));
-			//scanner.useDelimiter("[,\n]");
 			scanner.useDelimiter(",");
 			while (scanner.hasNext())
 			{
 				ID = scanner.next();
-				//System.out.println(ID); //testing
 				if (scanner.hasNext()) { //fixed the error due to finding a blank slot in the file (after the ",").
 					firstName = scanner.next();
-					//System.out.println(firstName); //testing
 					lastName = scanner.next();
-					//System.out.println(lastName); //testing
 					hourlyPay = scanner.next();
-					//System.out.println(hourlyPay); //testing
 					hours = scanner.next();
 					if (ID.equals(ID_toEdit)) { //if the searched for ID is found, edit that line.
 						pw.print( ID + "," + firstName + "," + lastName + "," + newHourlyPay + "," + hours + ",");  //change last "," to \n if using \n in the Delimiter
@@ -203,13 +194,13 @@ public class FileManager {
 			File dump = new File(filePath);
 			newFile.renameTo(dump);
 		}
-		catch(Exception e) { System.out.println("error in \"editTextFile\" method."); }
+		catch(Exception e) { System.out.println("Invalid input, put an integer for hourly pay. "); }
 	}
 	
 	// Edits the text file hourly pay
 	public static void addHours(String filePath, String ID_toEdit, int hoursAdded)
 		{
-			String tempFile = /*FileManager.folderPath + */ "temp.txt";
+			String tempFile = "temp.txt";
 			File oldFile = new File(filePath);
 			File newFile = new File(tempFile);
 			String ID, firstName, lastName, hourlyPay, hours;
@@ -221,19 +212,14 @@ public class FileManager {
 				PrintWriter pw = new PrintWriter(bw);
 				
 				Scanner scanner = new Scanner(new File(filePath));
-				//scanner.useDelimiter("[,\n]");
 				scanner.useDelimiter(",");
 				while (scanner.hasNext())
 				{
 					ID = scanner.next();
-					//System.out.println(ID); //testing
 					if (scanner.hasNext()) { //fixed the error due to finding a blank slot in the file (after the ",").
 						firstName = scanner.next();
-						//System.out.println(firstName); //testing
 						lastName = scanner.next();
-						//System.out.println(lastName); //testing
 						hourlyPay = scanner.next();
-						//System.out.println(hourlyPay); //testing
 						hours = scanner.next();
 						int numHours = Integer.parseInt(hours);
 						int newHours = hoursAdded + numHours;
@@ -253,7 +239,7 @@ public class FileManager {
 				File dump = new File(filePath);
 				newFile.renameTo(dump);
 			}
-			catch(Exception e) { System.out.println("error in \"editTextFile\" method."); }
+			catch(Exception e) { System.out.println("Invalid input, put an integer for hours. "); }
 		}
 	
 	// Returns the hours of a given employee ID...  copy this method to get any certain value if needed later.
@@ -327,9 +313,9 @@ public class FileManager {
 		}
 	
 	// Removes an Employee ID
-	public static void removeEmployee(String removeID, String filePath) // TODO non-functional with option 4.  option 4 still isn't working even if the number's hard coded.  seems to be here.
+	public static void removeEmployee(String removeID, String filePath) // Removes an employee's information from the file
 	{
-		String tempFile = /*FileManager.folderPath + */ "temp.txt";
+		String tempFile = "temp.txt";
 		File oldFile = new File(filePath);
 		File newFile = new File(tempFile);
 		String ID = "", firstName = "", lastName = "", hourlyPay = "", hours = "";
@@ -342,18 +328,13 @@ public class FileManager {
 			
 			reader = new Scanner(new File(filePath));
 			reader.useDelimiter("[,\n]");
-			//scanner.useDelimiter(",");
 			while (reader.hasNext())
 			{
 				ID = reader.next();
-				//System.out.println(ID); //testing
 				if (reader.hasNext()) { //fixed the error due to finding a blank slot in the file (after the ",").
 					firstName = reader.next();
-					//System.out.println(firstName); //testing
 					lastName = reader.next();
-					//System.out.println(lastName); //testing
 					hourlyPay = reader.next();
-					//System.out.println(hourlyPay); //testing
 					hours = reader.next();
 					if(!ID.equals(removeID)) {
 						pw.print( ID + "," + firstName + "," + lastName + "," + hourlyPay + "," + hours + ",");
@@ -368,7 +349,7 @@ public class FileManager {
 			File dump = new File(filePath);
 			newFile.renameTo(dump);
 		}
-		catch(Exception e) { System.out.println("error in \"editTextFile\" method."); } // TODO remove system.out
+		catch(Exception e) { System.out.println("Invalid input, put a valid employee ID. "); } 
 	}
 	
 	// creates folder
@@ -385,8 +366,6 @@ public class FileManager {
         }
 	}
 	
-	// TODO can use file and folder create for the abstract
-	
 	// create a text file
 	public static void createFile(String fileName) throws IOException // .text file with employee information.
 	{	
@@ -400,5 +379,4 @@ public class FileManager {
     		System.out.println("Employee record created under " + fileName + ".");
     	}
 	}
-
 }
