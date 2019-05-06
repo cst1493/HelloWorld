@@ -6,7 +6,6 @@ import java.util.Scanner;
 abstract class Employee //SuperClass
 {
 	// use this class to get user input and use the user input in the subclass
-
 	private static Scanner input = new Scanner(System.in);
 	protected String ID;
     protected String firstName;
