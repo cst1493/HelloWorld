@@ -95,7 +95,8 @@ public class FileManager {
 			
 			if (found == true) 
 			{
-				System.out.println("ID: " + ID + ";  " + "First Name:  " + firstName + ";  " + "Last Name:  " + lastName + ";  " + "Hourly Pay:  " + hourlyPay + ";  " + "Hours Worked: " + hours + "; ");
+				System.out.println("\nID\t" + "First Name\t" +"Last Name\t" + "Hourly Pay\t" + "Hours Worked");
+				System.out.println(ID + "\t" + firstName + "\t\t" + lastName + "\t\t" + hourlyPay + "\t\t" + hours);
 				//JOptionPane.showMessageDialog(null, "ID:  " + ID + ";  " + "First Name:  " + firstName + ";  " + "Last Name:  " + lastName + ";  " + "Hourly Pay:  " + hourlyPay + ";  " + "Hours Worked: " + hours + ";");
 			}
 			else { 
@@ -103,6 +104,7 @@ public class FileManager {
 				//JOptionPane.showMessageDialog(null, "ID not found");
 				}
 			reader.close();
+			System.out.print("\n");
 		}
 		catch(Exception e)
 		{

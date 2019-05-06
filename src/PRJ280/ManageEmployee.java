@@ -1,14 +1,7 @@
 package PRJ280;
-import java.lang.*;
-import java.util.Scanner;
-import java.util.ArrayList; //delete?
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.FileOutputStream;
+
 abstract class ManageEmployee extends Employee  {
 	//1,2,4
 	public static void option1() throws IOException { // "Add hours to an employee ID";
@@ -66,7 +59,6 @@ abstract class ManageEmployee extends Employee  {
 		String[] IDs = FileManager.getIDsOnly(); //creates the array to find the existing ID numbers.
 		System.out.println("Enter a 4 digit ID for the employee's details you want to see. ");
 		String ID_searchedFor = Employee.userInputID_withExistingID(IDs);
-		System.out.println("Option 5 testing      ...");
 		FileManager.readTextFileID(ID_searchedFor, FileManager.filePath);
 	}
 	
@@ -84,11 +76,11 @@ abstract class ManageEmployee extends Employee  {
 		
 		double TotalAmount = hours * hourlyPay;
 		
-		System.out.println("Total amount paid to " + userInputID + " is $" + TotalAmount);
+		System.out.println("\n" +"Total amount paid to " + userInputID + " is $" + TotalAmount + "\n");
 	}
 	
 	public static void option8() {
-		System.out.println("end of program. ");
+		System.out.println("End of program. ");
 		System.exit(0);
 	}
 	

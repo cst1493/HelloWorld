@@ -1,6 +1,6 @@
 package PRJ280;
+
 import java.io.IOException;
-import java.util.Scanner;
 
 public class MainMethodClass
 {	
